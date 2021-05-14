@@ -39,7 +39,7 @@
 		}
 	</select>
 	
-		<select id="Play_End" statementType="CALLABLE"
+		<select id="Stop_Watching" statementType="CALLABLE"
 		parameterType="com.youflix.cust.model.M_PLAY_END">
 		{
 			CALL USP_CUST_STOP_WATCHING

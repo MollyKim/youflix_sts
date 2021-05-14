@@ -25,5 +25,5 @@ public interface CUSTDao {
 	public void Play_End(M_PLAY_END mPlayEnd) throws Exception;
 	public void Log_Out(M_LOG_OUT mPlayEnd) throws Exception;  
 	public void PasswordChange(M_PASSWORD_CHANGE model) throws Exception; 
-	public void Stop_Watching(M_STOP_WATCHING model) throws Exception; 
+	public void Stop_Watching(M_STOP_WATCHING mStopWatching) throws Exception; 
 }

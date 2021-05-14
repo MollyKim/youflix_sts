@@ -700,7 +700,7 @@ public class CustController extends ControllerBase {
  */
 @SuppressWarnings({ "unchecked" })
 @RequestMapping(value = { "/api/stop_watching" })
-public void stop_watching(HttpServletRequest request, HttpServletResponse response) throws IOException {
+public void Stop_Watching(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	String function_desc = "시청 종료";
 	super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
 	HashMap<String, Object> resultMap = null;
@@ -708,25 +708,33 @@ public void stop_watching(HttpServletRequest request, HttpServletResponse respon
 	StringBuffer logResult = new StringBuffer();
 	DBLogType ResultCode = DBLogType.FAIL;
 	Gson gson = new Gson();
-	
-	M_STOP_WATCHING model ;
+	//UserCookie cookie = null;
+	M_STOP_WATCHING model =null;
 	
 	try {
-		
+		//cookie = CheckCookie(request, response);
 		model  = gson.fromJson( getPostRequestBody(request), M_STOP_WATCHING.class); 
+		//model.setSESSION_ID(cookie.getSESSION_ID());
 		
-		resultMap = custService.Stop_Watching(model);
-
-		if (resultMap.get("ResultCode").equals("200")) {
-			result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
-			ResultCode = DBLogType.OK;
+		String temp = null;
+		if( ( temp = model.paramCheck()) != null )
+		{
+			result = API_ERROR.response_error_toJson(400, temp);
 		}
-		else if (resultMap.get("ResultCode").equals("400")) {
-			result = API_ERROR.response_error_toJson(400, "");
-		}
+		else
+		{
+			resultMap = custService.Stop_Watching(model);
 
-		// Log
-		logResult.append(result);
+			if (resultMap.get("ResultCode").equals("200")) {
+				result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
+				ResultCode = DBLogType.OK;
+			}
+
+			// Log
+			logResult.append(result);
+		}
+//	} catch( CookieValidationException e){
+//		result = API_ERROR.response_error_toJson(401, e.getMessage());
 	} catch (Exception e) {
 		//e.printStackTrace();
 		result = API_ERROR.response_error_toJson(599, e.getMessage());
@@ -746,8 +754,7 @@ public void stop_watching(HttpServletRequest request, HttpServletResponse respon
 	}
 	
 	// -- Response --//
-	super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
+	super.displayResponseData(request, response, model, ResultCode, result, logResult.toString());
 }
-
 }
 
