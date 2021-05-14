@@ -15,6 +15,7 @@ import com.youflix.cust.model.M_PLAY_VIDEO;
 import com.youflix.cust.model.M_SESSION_CHECK;
 import com.youflix.cust.model.M_LOG_IN;
 import com.youflix.cust.model.M_SIGN_UP;
+import com.youflix.cust.model.M_STOP_WATCHING;
 import com.youflix.cust.model.ResultMapType2;
 
 
@@ -199,6 +200,24 @@ public class CUSTService extends BaseService{
 			custDao.PasswordChange(model);
 
 			return ResponseDatatoController(Integer.parseInt(model.getRES()), "");
+		} catch (Exception ex) {
+			throw ex;
+		}
+	}
+	/**
+	 * @FileName : 사용자 시청종료 (Stop_Watching)
+	 * @Project : CUST
+	 * @Date : 2021.03.23
+	 * @Author : 김 명 희
+	 * @Description : 사용자 시청종료
+	 * @History :
+	 */
+	public HashMap<String, Object> Stop_Watching(M_STOP_WATCHING mStopWatching) throws Exception {	
+    	
+		try {
+			custDao.Stop_Watching(mStopWatching);
+
+			return ResponseDatatoController(200, "");
 		} catch (Exception ex) {
 			throw ex;
 		}

@@ -13,6 +13,7 @@ import com.youflix.cust.model.M_PLAY_VIDEO;
 import com.youflix.cust.model.M_SESSION_CHECK;
 import com.youflix.cust.model.M_LOG_IN;
 import com.youflix.cust.model.M_SIGN_UP;
+import com.youflix.cust.model.M_STOP_WATCHING;
 import com.youflix.cust.model.ResultMapType2;
 
 @Mapper
@@ -24,4 +25,5 @@ public interface CUSTDao {
 	public void Play_End(M_PLAY_END mPlayEnd) throws Exception;
 	public void Log_Out(M_LOG_OUT mPlayEnd) throws Exception;  
 	public void PasswordChange(M_PASSWORD_CHANGE model) throws Exception; 
+	public void Stop_Watching(M_STOP_WATCHING model) throws Exception; 
 }

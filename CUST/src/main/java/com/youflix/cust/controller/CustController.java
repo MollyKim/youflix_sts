@@ -664,10 +664,7 @@ public class CustController extends ControllerBase {
 				result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
 				ResultCode = DBLogType.OK;
 			}
-			else if (resultMap.get("ResultCode").equals("400")) {
-				result = API_ERROR.response_error_toJson(400, "");
-			}
-
+		
 			// Log
 			logResult.append(result);
 		} catch (Exception e) {
@@ -692,4 +689,65 @@ public class CustController extends ControllerBase {
 		super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
 	}
     
+
+/**
+ * @FileName : 시청 종료 ( stop_watching )
+ * @Project : CUST
+ * @Date : 2021.03.23
+ * @Author : 김 명 희
+ * @Description : 시청 종료
+ * @History :
+ */
+@SuppressWarnings({ "unchecked" })
+@RequestMapping(value = { "/api/stop_watching" })
+public void stop_watching(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	String function_desc = "시청 종료";
+	super.writeApiCallLog(request, response, request.getRequestURI(), function_desc);
+	HashMap<String, Object> resultMap = null;
+	String result = "";
+	StringBuffer logResult = new StringBuffer();
+	DBLogType ResultCode = DBLogType.FAIL;
+	Gson gson = new Gson();
+	
+	M_STOP_WATCHING model ;
+	
+	try {
+		
+		model  = gson.fromJson( getPostRequestBody(request), M_STOP_WATCHING.class); 
+		
+		resultMap = custService.Stop_Watching(model);
+
+		if (resultMap.get("ResultCode").equals("200")) {
+			result = API_ERROR.response_success_toJson(200, null, false, false, null, false, null);
+			ResultCode = DBLogType.OK;
+		}
+		else if (resultMap.get("ResultCode").equals("400")) {
+			result = API_ERROR.response_error_toJson(400, "");
+		}
+
+		// Log
+		logResult.append(result);
+	} catch (Exception e) {
+		//e.printStackTrace();
+		result = API_ERROR.response_error_toJson(599, e.getMessage());
+
+		// Exception Log String
+		logResult.setLength(0);
+		logResult.append(
+				String.format("[%s]", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+		logResult.append(System.getProperty("line.separator"));
+		logResult.append("RESULT=ERROR");
+		logResult.append(System.getProperty("line.separator"));
+		logResult.append("ErrorCode=599");
+		logResult.append(System.getProperty("line.separator"));
+		logResult.append("ErrorMsg=" + result);
+		logResult.append(System.getProperty("line.separator"));
+
+	}
+	
+	// -- Response --//
+	super.displayResponseData(request, response, null, ResultCode, result, logResult.toString());
 }
+
+}
+
